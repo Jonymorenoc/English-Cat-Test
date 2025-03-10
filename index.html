@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Complete Quiz - Cat Emojis Edition</title>
+  <style>
+    /*  ------- KIDS STYLISH QUIZ STYLES ------- */
+
+    /*  Colors  */
+    :root {
+      --primary-color: #ffb347; /*  Vibrant Orange  */
+      --secondary-color: #a7c957; /*  Fresh Green  */
+      --accent-color: #ff6f61; /*  Playful Red  */
+      --bg-color: #f8edeb; /*  Light Peach Background  */
+      --text-color-dark: #333;
+      --text-color-light: #fff;
+      --answer-bg: #e0f7fa; /*  Light Blue Answer Button  */
+      --answer-hover-bg: #b2ebf2; /*  Hover State  */
+      --correct-color: #4caf50; /*  Bright Green for Correct  */
+      --incorrect-color: #f44336; /*  Bright Red for Incorrect  */
+    }
+
+    /*  RESET & BASE  */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif; /*  Fun, Kid-Friendly Font  */
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: var(--bg-color); /*  Peach Background  */
+      color: var(--text-color-dark);
+      margin: 0 auto;
+      max-width: 600px;
+      padding: 20px; /*  Add padding around body  */
+    }
+
+    header {
+      background-color: var(--primary-color); /*  Orange Header  */
+      width: 100%;
+      text-align: center;
+      padding: 20px 15px; /*  Padding for header  */
+      border-radius: 15px; /*  Rounded header  */
+      margin-bottom: 20px; /*  Space below header  */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15); /*  Softer shadow  */
+    }
+
+    h1 {
+      font-size: 2.2rem; /*  Larger title  */
+      margin-bottom: 10px;
+      color: var(--text-color-light); /*  Light text on header  */
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2); /*  Slight text shadow  */
+    }
+
+    p.subtitle {
+      font-size: 1.2rem;
+      color: var(--text-color-light); /*  Light subtitle text  */
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /*  Slight subtitle shadow  */
+    }
+
+    .quiz-container {
+      background-color: var(--text-color-light); /*  White quiz container  */
+      margin: 20px;
+      padding: 25px;
+      border-radius: 20px; /*  More rounded corners  */
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1); /*  More pronounced shadow  */
+      width: 95%;
+      max-width: 550px;
+      min-height: 280px; /*  Slightly taller min height  */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center content in quiz container */
+    }
+
+    .question {
+      font-size: 1.5rem; /*  Larger question text  */
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-align: center; /* Center question text */
+      line-height: 1.4; /* Improve line spacing for readability */
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: 1fr; /* Single column for answers */
+      gap: 10px;
+      width: 100%; /* Answers take full width of container */
+      max-width: 450px; /* Limit answer width */
+    }
+
+    .answer-btn {
+      font-size: 1.1rem;
+      padding: 15px; /* More padding */
+      border: none;
+      border-radius: 10px; /* Rounded answer buttons */
+      cursor: pointer;
+      text-align: center; /* Center answer text */
+      background-color: var(--answer-bg); /* Light blue answer buttons */
+      transition: background-color 0.3s ease; /* Smoother transition */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Button shadow */
+    }
+
+    .answer-btn:hover {
+      background-color: var(--answer-hover-bg); /* Hover effect */
+      transform: translateY(-2px); /* Slight lift on hover */
+      box-shadow: 0 4px 6px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+    }
+
+    .feedback {
+      margin-top: 25px;
+      font-weight: bold;
+      min-height: 2em;
+      text-align: center; /* Center feedback text */
+      font-size: 1.2rem; /* Slightly larger feedback */
+    }
+
+    .feedback span {
+      display: block; /* Make span a block element for better spacing */
+      margin-bottom: 8px; /* Space below correct/incorrect text */
+    }
+
+    .correct {
+      color: var(--correct-color); /* Bright green for correct */
+    }
+
+    .incorrect {
+      color: var(--incorrect-color); /* Bright red for incorrect */
+    }
+
+    /*  ------- Final Screen Styles ------- */
+    .final-screen .question {
+      font-size: 1.8rem; /* Larger final screen text */
+      color: var(--primary-color); /* Orange final screen text */
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .final-screen p {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--text-color-dark);
+    }
+  </style>
+ </head>
+ <body>
+
+ <header>
+  <h1>Quiz Time! 🏆🐱</h1>
+  <p class="subtitle">Test your English & have fun! 🐾</p>
+ </header>
+
+ <div class="quiz-container" id="quiz-container">
+  </div>
+
+ <script>
+  const quizData = [
+  // ... (your quizData array here - no changes needed) ...
+  {
+    question: "1️⃣🐱 It is mine. Give it to ____ please.",
+    answers: ["I", "it", "me"],
+    correct: 2,
+    explanation: "We use 'me' after 'Give it to...'."
+  },
+  {
+    question: "2️⃣🐱 He takes karate lessons with ____.",
+    answers: ["we", "us", "he"],
+    correct: 1,
+    explanation: "'Us' is the object pronoun to replace 'we'."
+  },
+  {
+    question: "3️⃣🐱 She usually walks home with ____.",
+    answers: ["they", "she", "them"],
+    correct: 2,
+    explanation: "Object pronoun for 'they' is 'them'."
+  },
+  {
+    question: "4️⃣🐱 I like Amelia. Do you like ____?",
+    answers: ["her", "you", "he"],
+    correct: 0,
+    explanation: "'Her' replaces 'Amelia' as the object pronoun."
+  },
+  {
+    question: "5️⃣🐱 They are calling ____ on the phone.",
+    answers: ["he", "they", "him"],
+    correct: 2,
+    explanation: "'Him' is the correct object pronoun to replace 'he'."
+  },
+  {
+    question: "6️⃣🐱 We want to visit ____.",
+    answers: ["she", "you", "he"],
+    correct: 1,
+    explanation: "'You' is the object pronoun form for 'you'."
+  },
+
+  // 2) OBJECT PRONOUNS PRACTICE
+  {
+    question: "7️⃣🐾 The teacher wants to talk to ____ about the quiz. (Hint: 'you')",
+    answers: ["me", "you", "we"],
+    correct: 1,
+    explanation: "The correct object pronoun for 'you' is still 'you'."
+  },
+  {
+    question: "8️⃣🐾 She is sad because the girls don’t want to play with ____ (Hint: 'she')",
+    answers: ["she", "her", "they"],
+    correct: 1,
+    explanation: "Object pronoun for 'she' is 'her'."
+  },
+  {
+    question: "9️⃣🐾 The glass broke when Ellen hit ____ (Hint: 'it')",
+    answers: ["it", "them", "her"],
+    correct: 0,
+    explanation: "Object pronoun for 'it' is 'it'."
+  },
+  {
+    question: "🔟🐾 I don’t see Jill and Ann. Did you invite ____ (Hint: 'they')?",
+    answers: ["they", "them", "it"],
+    correct: 1,
+    explanation: "Object pronoun for 'they' is 'them'."
+  },
+  {
+    question: "11️⃣🐾 Our grandmother brought ____ a surprise! (Hint: 'we')",
+    answers: ["we", "us", "them"],
+    correct: 1,
+    explanation: "'Us' is the object pronoun for 'we'."
+  },
+  {
+    question: "12️⃣🐾 He is on the team because they like ____ (Hint: 'he')",
+    answers: ["he", "him", "me"],
+    correct: 1,
+    explanation: "Object pronoun for 'he' is 'him'."
+  },
+  {
+    question: "13️⃣🐾 Both of ____ are taking the bus at the same time. (Hint: 'you')",
+    answers: ["you", "us", "I"],
+    correct: 0,
+    explanation: "Object pronoun for 'you' can also be 'you' in object position."
+  },
+  {
+    question: "14️⃣🐾 Can you pass ____ the jelly, please? (Hint: 'I')",
+    answers: ["I", "me", "it"],
+    correct: 1,
+    explanation: "Object pronoun for 'I' is 'me'."
+  },
+  {
+    question: "15️⃣🐾 I don’t talk to Ben because I am angry with ____ (Hint: 'him')",
+    answers: ["me", "us", "him"],
+    correct: 2,
+    explanation: "'Him' is the object pronoun for 'he'."
+  },
+
+  // 3) MORE VERBS IN FUTURE TENSE: WILL NOT (5 QUESTIONS)
+  {
+    question: "16️⃣🐱 'Anna will look after the baby tonight.' → Which is correct negative future?",
+    answers: [
+      "Anna will not look after the baby tonight.",
+      "Anna will no look after baby tonight.",
+      "Anna won't to look after the baby tonight."
+    ],
+    correct: 0,
+    explanation: "Use 'will not' + base form: 'Anna will not look after the baby tonight.'"
+  },
+  {
+    question: "17️⃣🐱 'We will finish the job later.' → Correct negative future form?",
+    answers: [
+      "We no will finish the job later.",
+      "We will not finish the job later.",
+      "We do not will finish the job later."
+    ],
+    correct: 1,
+    explanation: "'We will not finish the job later.' is the proper structure."
+  },
+  {
+    question: "18️⃣🐱 'You will fix your car tomorrow.' → Correct negative future?",
+    answers: [
+      "You will not fix your car tomorrow.",
+      "You don't will fix your car tomorrow.",
+      "You won't fixing your car tomorrow."
+    ],
+    correct: 0,
+    explanation: "Add 'not' after 'will': 'You will not fix your car tomorrow.'"
+  },
+  {
+    question: "19️⃣🐱 'I will speak with him next week.' → Correct negative future?",
+    answers: [
+      "I will not speak with him next week.",
+      "I don't will speak with him next week.",
+      "I won't to speak with him next week."
+    ],
+    correct: 0,
+    explanation: "'I will not speak with him next week.'"
+  },
+  {
+    question: "20️⃣🐱 'They will have to hurry up now.' → Correct negative future?",
+    answers: [
+      "They will not have to hurry up now.",
+      "They won't hurry up them now.",
+      "They will no have to hurry up now."
+    ],
+    correct: 0,
+    explanation: "Just insert 'not': 'They will not have to hurry up now.'"
+  },
+
+  // 4) VERBS IN FUTURE TENSE: WILL (5 QUESTIONS)
+  {
+    question: "21️⃣🐾 They will ____ another game tomorrow. (Best verb?)",
+    answers: ["paint", "visit", "play", "plant"],
+    correct: 2,
+    explanation: "'play' fits for a game."
+  },
+  {
+    question: "22️⃣🐾 She will ____ the book tonight. (Best verb?)",
+    answers: ["read", "paint", "visit", "plant"],
+    correct: 0,
+    explanation: "'She will read the book tonight.'"
+  },
+  {
+    question: "23️⃣🐾 Nick will ____ the doctor next Tuesday.",
+    answers: ["plant", "visit", "paint", "read"],
+    correct: 1,
+    explanation: "'visit' is correct: 'Nick will visit the doctor next Tuesday.'"
+  },
+  {
+    question: "24️⃣🐾 You will ____ the fence next week.",
+    answers: ["paint", "play", "read", "plant"],
+    correct: 0,
+    explanation: "'You will paint the fence next week.'"
+  },
+  {
+    question: "25️⃣🐾 We will ____ trees next spring.",
+    answers: ["visit", "read", "paint", "plant"],
+    correct: 3,
+    explanation: "'We will plant trees next spring.'"
+  },
+
+  // 5) VERBS IN FUTURE TENSE: ASKING WITH WILL (5 QUESTIONS)
+  {
+    question: "26️⃣🐈 'You will eat lunch with me.' → Which question is correct?",
+    answers: [
+      "Will you eat lunch with me?",
+      "You will eat lunch with me?",
+      "Will eat lunch you with me?"
+    ],
+    correct: 0,
+    explanation: "Begin with 'Will' + subject: 'Will you eat lunch with me?'"
+  },
+  {
+    question: "27️⃣🐈 'We will sit in the living room.' → Which question is correct?",
+    answers: [
+      "Will we sit in the living room?",
+      "We will sit in the living room?",
+      "We do will sit in the living room?"
+    ],
+    correct: 0,
+    explanation: "'Will we sit in the living room?' is correct."
+  },
+  {
+    question: "28️⃣🐈 'He will run a mile.' → Which question is correct?",
+    answers: [
+      "Will he run a mile?",
+      "He will run a mile?",
+      "Will run a mile he?"
+    ],
+    correct: 0,
+    explanation: "'Will he run a mile?' is the correct form."
+  },
+  {
+    question: "29️⃣🐈 'I will write a story.' → Which question is correct?",
+    answers: [
+      "I will write a story?",
+      "Will I write a story?",
+      "Will write a story I?"
+    ],
+    correct: 1,
+    explanation: "'Will I write a story?'"
+  },
+  {
+    question: "30️⃣🐈 'They will come tomorrow.' → Which question is correct?",
+    answers: [
+      "Will they come tomorrow?",
+      "They will come tomorrow?",
+      "Will come tomorrow they?"
+    ],
+    correct: 0,
+    explanation: "'Will they come tomorrow?'"
+  },
+
+  // 6) SUPERLATIVE ADJECTIVES (4)
+  {
+    question: "31️⃣🐱 What is the superlative form of 'near'?",
+    answers: ["nearer", "the nearest", "near than"],
+    correct: 1,
+    explanation: "For 3+ things, we use 'the nearest.'"
+  },
+  {
+    question: "32️⃣🐱 What is the superlative form of 'long'?",
+    answers: ["longer than", "the longest", "the most long"],
+    correct: 1,
+    explanation: "'the longest' is the correct superlative."
+  },
+  {
+    question: "33️⃣🐱 What is the superlative form of 'old'?",
+    answers: ["older", "the older", "the oldest"],
+    correct: 2,
+    explanation: "'the oldest' is correct for superlative."
+  },
+  {
+    question: "34️⃣🐱 What is the superlative form of 'clean'?",
+    answers: ["the cleanest", "cleaner than", "the most clean"],
+    correct: 0,
+    explanation: "'the cleanest' is correct for 3+ comparisons."
+  },
+
+  // 7) IRREGULAR NOUNS
+  {
+    question: "35️⃣🐾 What's the plural of 'man'?",
+    answers: ["mans", "men", "manes"],
+    correct: 1,
+    explanation: "Irregular: man -> men."
+  },
+  {
+    question: "36️⃣🐾 What's the plural of 'tooth'?",
+    answers: ["tooths", "teet", "teeth"],
+    correct: 2,
+    explanation: "Irregular: tooth -> teeth."
+  },
+  {
+    question: "37️⃣🐾 What's the plural of 'woman'?",
+    answers: ["womans", "women", "womanes"],
+    correct: 1,
+    explanation: "Irregular: woman -> women."
+  },
+  {
+    question: "38️⃣🐾 What's the plural of 'foot'?",
+    answers: ["feet", "foots", "feets"],
+    correct: 0,
+    explanation: "Irregular: foot -> feet."
+  },
+  {
+    question: "39️⃣🐾 What's the plural of 'child'?",
+    answers: ["childs", "children", "childes"],
+    correct: 1,
+    explanation: "Irregular: child -> children."
+  },
+
+  // 8) COMPARATIVE ADJECTIVES
+  {
+    question: "40️⃣🐱 Which is the correct comparative form of 'hard'?",
+    answers: ["the hardest", "harder than", "hard than"],
+    correct: 1,
+    explanation: "'harder than' compares two things."
+  },
+  {
+    question: "41️⃣🐱 Which is the correct comparative form of 'cute'?",
+    answers: ["cuter than", "the cutest", "cutes"],
+    correct: 0,
+    explanation: "Use '-er than' for comparing two items: 'cuter than'."
+  },
+  {
+    question: "42️⃣🐱 Which is the correct comparative form of 'new'?",
+    answers: ["newer than", "new than", "the newest"],
+    correct: 0,
+    explanation: "'newer than' compares two items."
+  },
+  {
+    question: "43️⃣🐱 Which is the correct comparative form of 'fat'?",
+    answers: ["fat than", "fatter than", "the fattest"],
+    correct: 1,
+    explanation: "We double the 't': 'fatter than'."
+  },
+
+  // 9) MORE IRREGULAR NOUNS
+  {
+    question: "44️⃣🐈 (ox) I saw four ____ in the field.",
+    answers: ["ox", "oxens", "oxen"],
+    correct: 2,
+    explanation: "The correct plural of 'ox' is 'oxen'."
+  },
+  {
+    question: "45️⃣🐈 (mouse) There were ____ in my old house.",
+    answers: ["mouses", "mice", "mouse"],
+    correct: 1,
+    explanation: "Irregular: mouse -> mice."
+  },
+  {
+    question: "46️⃣🐈 (goose) I heard the ____ honking outside my window.",
+    answers: ["goose", "geese", "gooses"],
+    correct: 1,
+    explanation: "Irregular: goose -> geese."
+  },
+  {
+    question: "47️⃣🐈 (die) You need two ____ to play this game.",
+    answers: ["dice", "dies", "die"],
+    correct: 0,
+    explanation: "Irregular: die -> dice."
+  },
+
+  // 10) EXTRA WRITING SKILLS turned into a question
+  {
+    question: "48️⃣🐱 Which sentence uses 'geese' correctly?",
+    answers: [
+      "I saw a geese flying in the sky.",
+      "I heard geese honking outside my window.",
+      "The geese is behind the barn."
+    ],
+    correct: 1,
+    explanation: "'I heard geese honking outside my window.' is correct usage."
+  }
+];
+
+  let currentQuestion = 0;
+
+  function loadQuestion(index) {
+    const container = document.getElementById('quiz-container');
+    const qData = quizData[index];
+
+    container.innerHTML = `
+      <div class="question">${qData.question}</div>
+      <div class="answers">
+        ${qData.answers.map((answer, i) => `
+          <button class="answer-btn" onclick="checkAnswer(${i})">
+            ${answer}
+          </button>
+        `).join('')}
+      </div>
+      <div class="feedback" id="feedback"></div>
+    `;
+    // Make sure to reset the class of quiz-container when loading a question
+    container.className = 'quiz-container';
+  }
+
+  function checkAnswer(selectedIndex) {
+    const feedbackEl = document.getElementById('feedback');
+    const qData = quizData[currentQuestion];
+
+    if (selectedIndex === qData.correct) {
+      feedbackEl.innerHTML = `<span class="correct">😺 Purr-fect!</span> <p>${qData.explanation}</p>`;
+      // Feedback with a delay before next question
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          loadQuestion(currentQuestion);
+        } else {
+          showFinalScreen();
+        }
+      }, 1500);
+    } else {
+      feedbackEl.innerHTML = `<span class="incorrect">🙀 Oops! Not quite!</span> <p>${qData.explanation}</p>`;
+    }
+  }
+
+  function showFinalScreen() {
+    const container = document.getElementById('quiz-container');
+    container.classList.add('final-screen'); // Add class for final screen styling
+    container.innerHTML = `
+      <div class="question">
+        <p>Quiz Completed! 🌟🐱🎉</p>
+        <p>You answered all the questions!</p>
+        <p>Thanks for playing, meow! 🐾</p>
+      </div>
+    `;
+  }
+
+  window.onload = () => {
+    loadQuestion(currentQuestion);
+  };
+ </script>
+ </body>
+ </html>
